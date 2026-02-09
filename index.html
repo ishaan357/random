@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>will you pleaseeeeee be my valentine? 💖</title>
+  <style>
+    :root {
+      --pink: #ff5fa2;
+      --purple: #7b5cff;
+      --yellow: #ffd166;
+      --bg1: #ffe3ef;
+      --bg2: #e8ddff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, var(--bg1), var(--bg2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 16px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 24px;
+      padding: 28px 20px 32px;
+      max-width: 420px;
+      width: 100%;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hearts {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.15;
+      background-image: radial-gradient(circle at 20% 20%, var(--pink) 2px, transparent 3px),
+                        radial-gradient(circle at 80% 30%, var(--purple) 2px, transparent 3px),
+                        radial-gradient(circle at 40% 70%, var(--yellow) 2px, transparent 3px);
+      background-size: 120px 120px;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      color: var(--pink);
+      font-size: 1.9rem;
+    }
+
+    p {
+      margin: 0 0 20px;
+      font-size: 1.05rem;
+      color: #333;
+    }
+
+    .buttons {
+      margin-top: 24px;
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      position: relative;
+    }
+
+    button {
+      border: none;
+      border-radius: 999px;
+      padding: 14px 26px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+      touch-action: manipulation;
+    }
+
+    button:active {
+      transform: scale(0.96);
+    }
+
+    #yesBtn {
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      color: white;
+    }
+
+    #noBtn {
+      background: #f1f1f1;
+      color: #444;
+      position: relative;
+    }
+
+    .final {
+      display: none;
+      animation: pop 0.5s ease forwards;
+    }
+
+    .final img {
+      width: 100%;
+      border-radius: 18px;
+      margin: 16px 0;
+      object-fit: cover;
+    }
+
+    @keyframes pop {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .confetti {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .confetti span {
+      position: absolute;
+      top: -10px;
+      width: 10px;
+      height: 10px;
+      background: var(--pink);
+      animation: fall 2.5s linear forwards;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="card" id="card">
+    <div class="hearts"></div>
+
+    <div class="question" id="question">
+      <h1>Pari 💕</h1>
+      <p>will you pleaseeeeee be my valentine?</p>
+
+      <div class="buttons">
+        <button id="yesBtn">Yes 💖</button>
+        <button id="noBtn">No 😡</button>
+      </div>
+    </div>
+
+    <div class="final" id="final">
+      <h1>YOOOOOO!! </h1>
+      <p>thank you so much for making me the happiest person ever </p>
+      <!-- Replace the src below with a photo of you two -->
+      <img src="image.png" alt="Us together" />
+      <p> one more surprise on the way 😉</p>
+    </div>
+  </div>
+
+  <div class="confetti" id="confetti"></div>
+
+  <script>
+    const noBtn = document.getElementById('noBtn');
+    const yesBtn = document.getElementById('yesBtn');
+    const question = document.getElementById('question');
+    const final = document.getElementById('final');
+    const confetti = document.getElementById('confetti');
+
+    function moveNoButton() {
+      const card = document.getElementById('card');
+      const cardRect = card.getBoundingClientRect();
+      const btnRect = noBtn.getBoundingClientRect();
+
+      const padding = 16;
+      const maxX = cardRect.width - btnRect.width - padding;
+      const maxY = cardRect.height - btnRect.height - padding;
+
+      const x = Math.random() * Math.max(0, maxX);
+      const y = Math.random() * Math.max(0, maxY);
+
+      noBtn.style.position = 'absolute';
+      noBtn.style.left = x + 'px';
+      noBtn.style.top = y + 'px';
+    }
+
+    noBtn.addEventListener('mouseenter', moveNoButton);
+    noBtn.addEventListener('touchstart', moveNoButton);
+
+    yesBtn.addEventListener('click', () => {
+      question.style.display = 'none';
+      final.style.display = 'block';
+      launchConfetti();
+    });
+
+    function launchConfetti() {
+      for (let i = 0; i < 80; i++) {
+        const piece = document.createElement('span');
+        piece.style.left = Math.random() * 100 + 'vw';
+        piece.style.background = [ '#ff5fa2', '#7b5cff', '#ffd166' ][Math.floor(Math.random()*3)];
+        piece.style.animationDelay = Math.random() * 0.5 + 's';
+        confetti.appendChild(piece);
+
+        setTimeout(() => piece.remove(), 3000);
+      }
+    }
+  </script>
+</body>
+</html>
